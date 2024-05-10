@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  <style>
+    .profile-section {
+      margin-top: 50px;
+    }
+    .profile-card {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .profile-description {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <h1 class="title">Welcome to Genx</h1>
+        <p class="subtitle">Create your own stunning portfolio in minutes!</p>
+        <button class="button is-primary is-large" onclick="location.href='gen.html';">Generate Yours Now</button>
+      </div>
+    </div>
+  </section>
+  
+  <section class="section profile-section">
+    <div class="container">
+      <div class="card profile-card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-64x64">
+                <img src="https://i.pinimg.com/originals/8c/de/53/8cde53917ea379654c52070991b6eaf3.jpg" alt="Profile Picture">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4 profile-name">Untitled Master</p>
+              <p class="subtitle is-6">Web Developer</p>
+            </div>
+          </div>
+          <div class="content profile-description">
+            Algerian Developer. <br> Python is love.
+          </div>
+          <button class="button is-link" onclick="window.open('https://www.instagram.com/untitledmaster/', '_blank')">View Profile</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

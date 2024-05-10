@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Generator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    .bottom-figure {
+      position: relative;
+      bottom: -55%; /* Adjust as needed */
+    }
+    .pfp{
+      border-radius: 9%;
+      box-shadow: 0 0 10px rgb(0, 0, 0);
+    }
+    @media (max-width: 400px) {
+      .bottom-figure {
+        width: 30%;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .bottom-figure {
+        width: 15%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+        </nav>
+        <h1 class="title">
+        Genx
+        </h1>
+        <p class="subtitle">
+        Fill the <strong>Forum</strong> and get you website!
+        </p> 
+      <form id="portfolioForm">
+        <!-- User Information -->
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" id="nameInput" placeholder="Your Name">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Profile Picture URL</label>
+          <div class="control">
+            <input class="input" type="text" id="pfpInput" placeholder="URL">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Banner URL</label>
+          <div class="control">
+            <input class="input" type="text" id="bannerInput" placeholder="URL">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Bio</label>
+          <div class="control">
+            <textarea class="textarea" id="bioInput" placeholder="Tell something about yourself"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Tags</label>
+          <div class="control">
+            <input class="input" type="text" id="tagsInput" placeholder="e.g., Tag1, Tag2, Tag3">
+          </div>
+        </div>
+        <!-- Project Information -->
+        <div class="field" id="projectsField">
+          <label class="label">Projects</label>
+          <div id="projectsContainer">
+            <!-- Project details will be added dynamically -->
+          </div>
+          <button type="button" class="button is-link" onclick="addProject()">Add Project</button>
+        </div>
+        <!-- Links -->
+        <div class="field">
+          <label class="label">Links</label>
+          <div class="control">
+            <input class="input" type="text" id="twitter" placeholder="e.g., https://twitter.com/your_username">
+            <input class="input" type="text" id="instagram" placeholder="e.g., https://instagram.com/your_username">
+            <input class="input" type="text" id="github" placeholder="e.g., https://github.com/your_username">
+          </div>
+        </div>
+        <!-- Buttons -->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-link">Generate Portfolio</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light">Reset</button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <br>
+      <h1 class="title">
+        Preview
+        </h1> 
+      <!-- Generated Portfolio Output -->
+      <div id="portfolioOutput" class="is-hidden">
+        <!-- Portfolio will be generated here -->
+      </div>
+    </div>
+  </section>
+
+  <script>
+    let projectsCount = 0;
+
+    function addProject() {
+      projectsCount++;
+      const projectHtml = `
+        <div class="field" id="project${projectsCount}">
+          <label class="label">Project Title</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Project Title" id="projectTitleInput${projectsCount}">
+          </div>
+          <label class="label">Project Description</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Project Description" id="projectDescriptionInput${projectsCount}">
+          </div>
+          <label class="label">Project Link</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Project Link" id="projectLinkInput${projectsCount}">
+          </div>
+          <label class="label">Project Tags (Separated by '/')</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Project Tags" id="projectTagsInput${projectsCount}">
+          </div>
+          <label class="label">Project Pic URL</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Project Pic URL" id="projectPicInput${projectsCount}">
+          </div>
+        </div>
+      `;
+      document.getElementById('projectsContainer').insertAdjacentHTML('beforeend', projectHtml);
+    }
+
+    document.getElementById('portfolioForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      generatePortfolio();
+    });
+
+    function generatePortfolio() {
+      const name = document.getElementById('nameInput').value;
+      const pfpUrl = document.getElementById('pfpInput').value;
+      const bannerUrl = document.getElementById('bannerInput').value;
+      const bio = document.getElementById('bioInput').value;
+      const tags = document.getElementById('tagsInput').value.split(',').map(tag => tag.trim());
+      const twitter = document.getElementById('twitter').value.split(',').map(link => link.trim());
+      const instagram = document.getElementById('instagram').value.split(',').map(link => link.trim());
+      const github = document.getElementById('github').value.split(',').map(link => link.trim());  
+
+      const projectsHtml = Array.from(document.querySelectorAll('[id^="projectTitleInput"]')).map((input, index) => ({
+        title: input.value,
+        link: document.getElementById(`projectLinkInput${index + 1}`).value,
+        tags: document.getElementById(`projectTagsInput${index + 1}`).value.split('/').map(tag => tag.trim()),
+        picUrl: document.getElementById(`projectPicInput${index + 1}`).value,
+        DescriptionInput: document.getElementById(`projectDescriptionInput${index + 1}`).value
+      }));
+
+      const portfolioHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>${name}</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          <style>
+            .bottom-figure {
+              position: relative;
+              bottom: -55%; /* Adjust as needed */
+            }
+            .pfp{
+              border-radius: 9%;
+              box-shadow: 0 0 10px rgb(0, 0, 0);
+            }
+            @media (max-width: 400px) {
+              .bottom-figure {
+                width: 30%;
+              }
+            }
+
+            @media (min-width: 769px) {
+              .bottom-figure {
+                width: 15%;
+              }
+            }
+         
+        </style>
+        </head>
+        <body>
+          <section class="section">
+            <div class="container">
+              <nav class="breadcrumb is-medium" aria-label="breadcrumbs">
+              </nav>
+              <h1 class="title">
+                ${name}
+              </h1>
+              <p class="subtitle">
+                I am <strong>${name}</strong> and this is my website!
+              </p> 
+              <figure class="image is-3by1">
+                <img src="${bannerUrl}" />
+                <figure class="image is-1by1 bottom-figure">
+                  <img src="${pfpUrl}" class="pfp"/>
+                </figure>
+              </figure>
+              <br>
+              <article class="message is-dark">
+                <div class="message-body">
+                  ${bio}
+                </div>
+              </article>
+              <div class="tags">
+                ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+              </div>
+              <br>
+              <br>
+              <h1 class="title is-5">
+            PROJECTS:
+          </h1>
+
+          <div class="columns is-mobile">
+            ${projectsHtml.map(project => `
+              <div class="column">
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-4by3">
+                      <img src="${project.picUrl}" alt="${project.title}">
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-6">${project.title}</p>
+                        <p class="title is-7">${project.DescriptionInput}</p>
+                        <p class="subtitle is-6"><a href="${project.link}" target="_blank">${project.link}</a></p>
+                      </div>
+                    </div>
+                    <div class="content">
+                      Tags: ${project.tags.map(tag => `<span class="tag is-info">${tag}</span>`).join('')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <br>
+          <br>
+          <br>
+          <h1 class="title is-5">
+            LINKS:
+          </h1>
+          ${twitter.map(twitter => `
+            <div class="icon-text">
+          <span class="icon has-text-info">
+            <i class="fab fa-twitter"></i>
+          </span>
+          <a href="${twitter}" target="_blank">
+          <span>Twitter</span>
+        </div>`).join('')}
+        ${instagram.map(instagram => `
+            <div class="icon-text">
+          <span class="icon has-text-warning">
+            <i class="fab fa-instagram"></i>
+          </span>
+          <a href="${instagram}" target="_blank">
+          <span>Instagram</span>
+        </div>`).join('')}
+        ${github.map(github => `
+            <div class="icon-text">
+          <span class="icon has-text-white">
+            <i class="fab fa-github"></i>
+          </span>
+          <a href="${github}" target="_blank">
+          <span>Twitter</span>
+        </div>`).join('')}
+        </div>
+      </section>
+    </body>
+    </html>
+  `;
+  navigator.clipboard.writeText(portfolioHtml);
+  alert("Copied the text");
+  document.getElementById('portfolioOutput').innerHTML = portfolioHtml;
+  document.getElementById('portfolioOutput').classList.remove('is-hidden');
+}
+
+</script>
+</body>
+</html>
